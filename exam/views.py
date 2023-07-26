@@ -4,7 +4,7 @@ from django.views import generic, View
 from django.urls import reverse_lazy
 
 from .models import Task, Tag
-from .forms import TaskCreateForm
+from .forms import TaskCreateForm, TagForm
 
 
 class TaskListView(generic.ListView):
@@ -42,3 +42,24 @@ def complete_uncomplete_task(request, pk):
     return HttpResponseRedirect(reverse_lazy("exam:home"))
 
 
+class TagListView(generic.ListView):
+    model = Tag
+    template_name = "exam/tag_list.html"
+
+
+class TagCreateView(generic.CreateView):
+    model = Tag
+    form_class = TagForm
+    success_url = reverse_lazy("exam:tags-list")
+
+
+class TagUpdateView(generic.UpdateView):
+    model = Tag
+    form_class = TagForm
+    success_url = reverse_lazy("exam:tags-list")
+
+
+class TagDeleteView(generic.DeleteView):
+    model = Tag
+    template_name = "exam/tag_delete_warning.html"
+    success_url = reverse_lazy("exam:tags-list")
